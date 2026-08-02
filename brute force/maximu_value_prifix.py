@@ -1,0 +1,31 @@
+
+class Solution:
+    def maximumTripletValue(self, nums):
+        n = len(nums)
+
+        # Prefix maximum
+        left_max = [0] * n
+        left_max[0] = nums[0]
+
+        for i in range(1, n):
+            left_max[i] = max(left_max[i - 1], nums[i])
+
+        # Suffix maximum
+        right_max = [0] * n
+        right_max[n - 1] = nums[n - 1]
+
+        for i in range(n - 2, -1, -1):
+            right_max[i] = max(right_max[i + 1], nums[i])
+
+        ans = 0
+
+        for j in range(1, n - 1):
+            value = (left_max[j - 1] - nums[j]) * right_max[j + 1]
+            ans = max(ans, value)
+
+        return ans
+    
+obj = Solution()
+print(obj.maximumTripletValue([5,2,8,3,7]))
+print(obj.maximumTripletValue([1,10,3,4,19]))
+print(obj.maximumTripletValue([12,6,1,2,7]))
